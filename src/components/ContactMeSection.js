@@ -20,7 +20,6 @@ import {useAlertContext} from "../context/alertContext";
 const LandingSection = () => {
   const {isLoading, response, submit} = useSubmit();
   const { onOpen } = useAlertContext();
-  const [isInvald, setIsInvalid]= useState(false)
   
   const formik = useFormik({
     initialValues: {
@@ -39,7 +38,7 @@ const LandingSection = () => {
     }),
   });
 
-  
+
   return (
     <FullScreenSection
       isDarkBackground
@@ -52,28 +51,30 @@ const LandingSection = () => {
           Contact me
         </Heading>
         <Box p={6} rounded="md" w="100%">
-          <form onSubmit={formik}>
+          <form onSubmit={formik.handleSubmit}>
             <VStack spacing={4}>
-              <FormControl isInvalid={false}>
+              <FormControl isInvalid={formik.touched.firstName && formik.errors.firstName? true:false}>
                 <FormLabel htmlFor="firstName">Name</FormLabel>
                 <Input
                   id="firstName"
                   name="firstName"
-                  onChange={formik.getFieldProps}
+                  {...formik.getFieldProps('firstName')}
                 />
-                <FormErrorMessage>Required</FormErrorMessage>
+                {formik.touched.firstName && formik.errors.firstName? (<FormErrorMessage>Required</FormErrorMessage>): null}
+                
               </FormControl>
-              <FormControl isInvalid={false}>
+              <FormControl isInvalid={(formik.touched.email && formik.errors.email) || (formik.touched.email && formik.getFieldProps('email').value.length ===0)?true : false}>
                 <FormLabel htmlFor="email">Email Address</FormLabel>
                 <Input
                   id="email"
                   name="email"
                   type="email"
-                  onChange={formik.getFieldProps}
+                  {...formik.getFieldProps('email')}
                 />
-                <FormErrorMessage>Required</FormErrorMessage>
+                 {(formik.touched.email && formik.errors.email) || (formik.touched.email && formik.getFieldProps('email').value.length ===0)?(<FormErrorMessage>Required</FormErrorMessage>):true}
+                
               </FormControl>
-              <FormControl>
+              <FormControl isInvalid={formik.touched.type && formik.errors.type? true: false}>
                 <FormLabel htmlFor="type">Type of enquiry</FormLabel>
                 <Select id="type" name="type">
                   <option value="hireMe">Freelance project proposal</option>
@@ -82,15 +83,17 @@ const LandingSection = () => {
                   </option>
                   <option value="other">Other</option>
                 </Select>
+                {formik.touched.type && formik.errors.type? (<FormErrorMessage>Required</FormErrorMessage>): null}
               </FormControl>
-              <FormControl isInvalid={false}>
+              <FormControl isInvalid={formik.touched.comment && formik.errors.comment? true : false}>
                 <FormLabel htmlFor="comment">Your message</FormLabel>
                 <Textarea
                   id="comment"
                   name="comment"
                   height={250}
+                  {...formik.getFieldProps('comment')}
                 />
-                <FormErrorMessage>Required</FormErrorMessage>
+                {formik.touched.comment && formik.errors.comment? (<FormErrorMessage>Required</FormErrorMessage>): null}
               </FormControl>
               <Button type="submit" colorScheme="purple" width="full">
                 Submit
