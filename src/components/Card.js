@@ -11,7 +11,7 @@ const Card = ({ title, description, imageSrc }) => {
     <VStack borderRadius="2xl" backgroundColor="#fefefe" >
     <Image borderRadius="2xl"src={imageSrc} />
     <VStack align="start">
-    <Heading  pl={4} pr={4} color="black">{title}</Heading>
+    <Heading   p={4} size="md" color="black">{title}</Heading>
     <Text  pl={4} pr={4} color="grey">{description}</Text>
       <HStack p={4} color="black">
           <Text>See more</Text> <FontAwesomeIcon icon={faArrowRight} size="1x" />
