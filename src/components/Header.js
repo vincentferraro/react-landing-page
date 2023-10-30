@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -33,6 +33,8 @@ const socials = [
 ];
 
 const Header = () => {
+  const [transformY, setTransformY]= useState("translateY(0px)")
+  
   const handleClick = (anchor) => () => {
     const id = `${anchor}-section`;
     const element = document.getElementById(id);
@@ -44,6 +46,28 @@ const Header = () => {
     }
   };
 
+  
+  function handleScroll() {
+    
+    if(window.scrollY > 50){
+      setTransformY("translateY(-200px)")
+    }else{
+      setTransformY("translateY(0px)")
+    } 
+    }
+
+    
+    useEffect(()=>{
+      window.addEventListener('scroll', handleScroll)
+
+      return ()=>{
+        
+        window.removeEventListener('scroll',handleScroll)
+        
+      }
+      
+    },[])
+
   return (
     <Box
       position="fixed"
@@ -51,6 +75,7 @@ const Header = () => {
       left={0}
       right={0}
       translateY={0}
+      transform={transformY}
       transitionProperty="transform"
       transitionDuration=".3s"
       transitionTimingFunction="ease-in-out"
